@@ -1,10 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath: "/clinicalscribe-soaplab",
-  images: {
-    unoptimized: true,
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/soaplab",
+        permanent: true,
+      },
+    ];
   },
 };
 
