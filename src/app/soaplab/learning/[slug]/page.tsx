@@ -1,12 +1,19 @@
-"use client";
-
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { getArticleBySlug, type ArticleSection } from "@/data/articles";
+import { notFound } from "next/navigation";
+import { articles, getArticleBySlug, type ArticleSection } from "@/data/articles";
 
-export default function ArticlePage() {
-  const params = useParams();
-  const slug = params.slug as string;
+export function generateStaticParams() {
+  return articles.map((article) => ({
+    slug: article.slug,
+  }));
+}
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default async function ArticlePage({ params }: PageProps) {
+  const { slug } = await params;
   const article = getArticleBySlug(slug);
 
   if (!article) {
